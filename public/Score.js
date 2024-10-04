@@ -6,6 +6,7 @@ import itemJson from './assets/item.json' with { type: 'json' };
 
 class Score {
   score = 0;
+  stageItemScore = 0;
   HIGH_SCORE_KEY = 'highScore';
   stage = 0;
   stageChange = false;
@@ -31,8 +32,10 @@ class Score {
         sendEvent(11, {
           currentStage: stageJson.data[this.stage].id,
           targetStage: stageJson.data[this.stage + 1].id,
+          stageItemScore: this.stageItemScore,
         });
         this.stage += 1;
+        this.stageItemScore = 0;
         console.log(this.stage);
       }
       else {
@@ -42,11 +45,20 @@ class Score {
   }
 
   getItem(itemId) {
-    this.score += 0;
+    const itemInfo = itemJson.data.find((item) => item.id === itemId);
+    const ItemScore = itemInfo.score;
+
+    this.stageItemScore += ItemScore;
+    sendEvent(21, {currentStage: stageJson.data[this.stage].id, itemId: itemInfo.id});
+
+    this.score += ItemScore;
   }
 
   reset() {
     this.score = 0;
+    this.stage = 0;
+    this.stageItemScore = 0;
+    this.scorePerSecond = 1;
   }
 
   setHighScore() {

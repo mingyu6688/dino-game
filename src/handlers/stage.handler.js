@@ -8,8 +8,8 @@ export const moveStageHandler = (userId, payload) => {
 
   // 유저의 현재 스테이지 정보
   let currentStages = getStage(userId);
-  const { stages } = getGameAssets();
-  const { currentStage, targetStage } = payload;
+  const { stages, items } = getGameAssets();
+  const { currentStage, targetStage, stageItemScore } = payload;
 
   if (!currentStages.length) {
     return { status: 'fail', message: 'No stages found for user' };
@@ -30,21 +30,26 @@ export const moveStageHandler = (userId, payload) => {
   const nowStageId = stages.data.find((idx) => idx.id === userStageInfo.id);
   const currentStageId = stages.data.find((idx) => idx.id === currentStage);
   const targetStageId = stages.data.find((idx) => idx.id === targetStage);
-
+  const itemMaxScore = items.data.reduce((prev, value) => {
+    return prev.score >= value.score ? prev.score : value.score;
+  });
   const scorePerSecond = nowStageId.scorePerSecond;
-
   // 점수 검증
   const serverTime = Date.now(); // 현재 타임스탬프
-  const elapsedTime = (serverTime - userStageInfo.timestamp) / 1000; // 현재 서버 시간에서 현 스테이지가 시작한 시간을 뺀 값
-  const nowStageScore = elapsedTime * scorePerSecond; // 현 스테이지에서 얻은 점수
-  const scoreCheck = Math.abs((targetStageId.score - currentStageId.score) - nowStageScore);
-  // 1스테이지 -> 2스테이지로 넘어가는 가정
+  const elapsedTime = (serverTime - userStageInfo.timestamp) / 1000; // 현 스테이지가 진행된 시간
+  const timeScore = Math.floor(elapsedTime * scorePerSecond); // 현 스테이지 시간 점수 계산
+  const nowStageScore = timeScore + stageItemScore; // 현 스테이지에서 얻은 점수 + 아이템으로 획득한 점수
+
+  const scoreCheck = Math.abs(targetStageId.score - currentStageId.score - nowStageScore);
   // 5라는 숫자는 임의로 정한 오차범위
 
-  console.log("현재 스테이지에서 얻은 점수 ", nowStageScore);
-  console.log("다음 스테이지 필요 점수 ", targetStageId.score);
-  console.log("점수 오차", scoreCheck);
-  if (scoreCheck > 50) {
+  console.log('현재 스테이지 시작 점수 ', currentStageId.score);
+  console.log('다음 스테이지 필요 점수 ', targetStageId.score);
+  console.log('스테이지 시간 점수 종합 ', timeScore);
+  console.log('스테이지 아이템 획득 점수 종합 ', stageItemScore);
+  console.log('현재 스테이지에서 얻은 점수 ', nowStageScore);
+  console.log('점수 오차', scoreCheck);
+  if (scoreCheck > 5 + itemMaxScore) {
     return { status: 'fail', message: 'Invaild elapsed time' };
   }
 
