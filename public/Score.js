@@ -1,6 +1,5 @@
 // 서버에 정보를 보내 핸들러
 import { sendEvent } from './socket.js';
-
 import stageJson from './assets/stage.json' with { type: 'json' };
 import itemJson from './assets/item.json' with { type: 'json' };
 
@@ -36,7 +35,6 @@ class Score {
         });
         this.stage += 1;
         this.stageItemScore = 0;
-        console.log(this.stage);
       }
       else {
         this.stageChange = true;
@@ -49,7 +47,7 @@ class Score {
     const ItemScore = itemInfo.score;
 
     this.stageItemScore += ItemScore;
-    sendEvent(21, {currentStage: stageJson.data[this.stage].id, itemId: itemInfo.id});
+    sendEvent(21, {currentStage: stageJson.data[this.stage].id, itemId: itemInfo.id, itemScore: itemInfo.score});
 
     this.score += ItemScore;
   }

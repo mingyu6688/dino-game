@@ -60,5 +60,5 @@ export const moveStageHandler = (userId, payload) => {
 
   setStage(userId, payload.targetStage, serverTime); // 각 스테이지 시작시간을 저장
   // console.log(getStage(userId));
-  return { status: 'success' };
+  return { status: targetStageId.id*1 - 999 + ' 스테이지로 이동' };
 };
