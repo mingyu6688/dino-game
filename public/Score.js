@@ -1,5 +1,5 @@
 // 서버에 정보를 보내 핸들러
-import { sendEvent } from './socket.js';
+import { sendEvent } from './Socket.js';
 import stageJson from './assets/stage.json' with { type: 'json' };
 import itemJson from './assets/item.json' with { type: 'json' };
 

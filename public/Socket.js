@@ -1,6 +1,6 @@
 import { CLIENT_VERSION } from './Constants.js';
 
-const socket = io('http://localhost:3000', {
+const socket = io('http://localhost:3000', { // ubuntu에서 해결할 때 http://서버ip주소:3000 로 사용해야 오류가 발생하지 않았다.
   query: {
     clientVersion: CLIENT_VERSION,
   },
