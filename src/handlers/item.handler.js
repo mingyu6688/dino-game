@@ -4,6 +4,8 @@ import { getItem, setItem } from '../models/item.model.js';
 export const itemGet = (userId, payload) => {
   // 클라이언트가 획득했다고 보낸 아이템 정보
   // userId
+  let totalScore = 0;
+
   let userGetItems = getItem(userId);
   const { items, itemUnlocks } = getGameAssets();
   const { currentStage, itemId, itemScore } = payload;
@@ -18,9 +20,16 @@ export const itemGet = (userId, payload) => {
     return { status: 'fail', message: '현재 스테이지에 획득할 수 없는 아이템입니다' };
   }
 
+
+
   const serverTime = Date.now();
 
   setItem(userId, currentStage, itemId, itemScore, serverTime); // 유저의 아이템 획득 시간을 기록
-
+  userGetItems.forEach((userItem) => {
+    if (userItem.currentStage === 1000) {
+      totalScore += userItem.itemScore;
+      console.log(totalScore);
+    }
+  });
   return { status: itemScore + '점 추가 획득' };
 };

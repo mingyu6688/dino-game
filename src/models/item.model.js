@@ -11,8 +11,8 @@ export const getItem = (uuid) => {
 };
 
 // 아이템 획득한 시간을 기록
-export const setItem = (uuid, itemId, timestamp) => {
-  return items[uuid].push({ itemId, timestamp });
+export const setItem = (uuid, currentStage, itemId, itemScore, timestamp) => {
+  return items[uuid].push({ currentStage, itemId, itemScore, timestamp });
 };
 
 export const clearItem = (uuid) => {

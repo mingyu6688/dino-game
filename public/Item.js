@@ -36,6 +36,7 @@ class Item {
         // 충돌
         return result;
     }
+    
 }
 
 export default Item

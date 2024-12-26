@@ -24,8 +24,9 @@ class Score {
 
     if (stageJson.data[this.stage + 1]) {
       // 다음 스테이지가 존재하는가?
+      this.stageChange = true;
       if (this.stageChange && currentScore >= stageJson.data[this.stage + 1].score) {
-        // 현재 점수가 다음 스테이지의 점수 조건을 충족?
+        // 현재 점수가 다음 스테이지의 시작 점수보다 높다면
         this.stageChange = false;
         this.scorePerSecond = stageJson.data[this.stage + 1].scorePerSecond;
         sendEvent(11, {
@@ -35,9 +36,6 @@ class Score {
         });
         this.stage += 1;
         this.stageItemScore = 0;
-      }
-      else {
-        this.stageChange = true;
       }
     }
   }

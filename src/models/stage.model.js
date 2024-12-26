@@ -10,7 +10,7 @@ export const getStage = (uuid) => {
   return stages[uuid];
 };
 
-// 스테이지마다 타임스탬프를 가짐
+// 스테이지마다 타임스탬프를 가짐 -> 스테이지 시작 시간
 export const setStage = (uuid, id, timestamp) => {
   return stages[uuid].push({ id, timestamp });
 };

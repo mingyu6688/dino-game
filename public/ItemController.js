@@ -28,6 +28,7 @@ class ItemController {
 
   createItem(score) {
     // 스테이지 id 값을 전달할 방법이 필요하다?
+    // 현재 스테이지의 id를 사용해 itemUnlock에 해당하는 아이템들만 생성하게 해야함
     // const itemUnlockData = itemUnlockJson.data.find((idx) => idx.stageId === score.stageId);
     const itemUnlockData = itemUnlockJson.data[score.stage].itemId;
 
