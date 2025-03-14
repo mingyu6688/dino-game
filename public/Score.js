@@ -57,7 +57,7 @@ class Score {
     this.scorePerSecond = 1;
   }
 
-  setHighScore() {
+  setHighScore() { // 이걸 로컬스토리지가 아니라 서버에서 관리하도록 수정해보자
     const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
     if (this.score > highScore) {
       localStorage.setItem(this.HIGH_SCORE_KEY, Math.floor(this.score));
